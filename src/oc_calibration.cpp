@@ -13,7 +13,7 @@
  */
 
 #include <cmath>
-#include <opencv2\calib3d.hpp>
+#include <opencv2/calib3d.hpp>
 #include "oc_calibration.h"
 
 namespace opencorr
@@ -39,13 +39,13 @@ namespace opencorr
 		this->intrinsic_matrix(1, 1) = this->intrinsics.fy;
 		this->intrinsic_matrix(1, 2) = this->intrinsics.cy;
 		if (this->intrinsic_matrix.isIdentity()) {
-			throw std::exception(std::string("Null intrinsics matrix").data());
+			throw std::string("Null intrinsics matrix");
 		}
 	}
 
 	void Calibration::updateRotationMatrix() {
 		cv::Mat cv_rotation_matrix;
-		cv::Mat cv_rotation_vector = (cv::Mat_<float>(3, 1) << this->extrinsics.pitch, this->extrinsics.roll, this->extrinsics.yaw);
+		cv::Mat cv_rotation_vector = (cv::Mat_<float>(3, 1) << this->extrinsics.rx, this->extrinsics.ry, this->extrinsics.rz);
 		cv::Rodrigues(cv_rotation_vector, cv_rotation_matrix);
 		cv::cv2eigen(cv_rotation_matrix, this->rotation_matrix);
 	}
